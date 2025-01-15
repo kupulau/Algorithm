@@ -1,19 +1,25 @@
+import math
+
 n = int(input())
 
-dp = [0]*(n+1)
-
-k = 1
-while k**2 <= n:
-    dp[k**2] = 1
-    k += 1
-    
-for i in range(1, n+1):
-    j = 1
-    while j**2 <= i:
-        if dp[i] == 0:
-            dp[i] = dp[j**2] + dp[i-j**2]
-        else:
-            dp[i] = min(dp[i], dp[j**2]+dp[i-j**2])
-        j += 1
+def is_square(num):
+    if math.sqrt(num) == int(math.sqrt(num)):
+        return True
+    else:
+        return False
         
-print(dp[n])
+no = 4   # maximum 4 squares
+if is_square(n)==True:
+    no = 1
+else:
+    for i in range(int(math.sqrt(n)), 0, -1):
+        if is_square(n-i**2)==True:
+            no = 2
+            break
+        else:
+            for j in range(int(math.sqrt(n-i**2)), 0, -1):
+                if is_square(n-i**2-j**2)==True:
+                        no = 3
+                        break
+           
+print(no)
