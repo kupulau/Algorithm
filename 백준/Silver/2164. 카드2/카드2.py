@@ -1,11 +1,10 @@
-from collections import deque
-
 n = int(input())
 
-q = deque(x+1 for x in range(n))
-
-while len(q) > 1:
-    q.popleft()
-    q.append(q.popleft())
-
-print(q[0])
+power = 1
+while power*2 <= n:
+    power *= 2
+    
+if n == power:
+    print(n)
+else:
+    print((n-power)*2)
