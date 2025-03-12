@@ -1,14 +1,26 @@
-n = int(input())
-m = int(input())
-s = input()
+import sys
+input = sys.stdin.readline
 
-check = 'IO'*n+'I'
+n = int(input())  
+m = int(input())  
+s = input().strip()  
 
-cnt = 0
-i = 0
-while i+len(check) <= m:
-    if s[i:i+len(check)] == check:
-        cnt += 1
-    i += 1
+count = 0 
+i = 0  
+pattern_length = 0  
 
-print(cnt)
+while i < m - 1:
+    if s[i] == 'I' and i + 1 < m and s[i + 1] == 'O': 
+        if i + 2 < m and s[i + 2] == 'I':  
+            pattern_length += 1
+            if pattern_length >= n:  
+                count += 1
+            i += 2  
+        else:
+            pattern_length = 0  
+            i += 1
+    else:
+        pattern_length = 0 
+        i += 1
+
+print(count)
