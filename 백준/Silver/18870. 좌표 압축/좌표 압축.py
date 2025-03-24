@@ -3,10 +3,8 @@ input = sys.stdin.readline
 
 n = int(input())
 list1 = list(map(int, input().split()))
-list2 = list(set(list1))
-list2.sort()
+list2 = sorted(set(list1)) 
 
-dict = {v: k for k, v in enumerate(list2)}
+index_map = {v: k for k, v in enumerate(list2)}  
 
-for x in list1:
-    print(dict[x], end=" ")
+sys.stdout.write(" ".join(str(index_map[x]) for x in list1) + "\n")
