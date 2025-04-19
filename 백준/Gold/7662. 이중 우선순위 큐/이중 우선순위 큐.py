@@ -1,42 +1,36 @@
 import heapq
-from collections import defaultdict
-
-def insert(x):
-    heapq.heappush(minq, x)
-    heapq.heappush(maxq, -x)
-    count[x] += 1
-    
-def delete_min():
-    while minq:
-        val = heapq.heappop(minq)
-        if count[val] > 0:
-            count[val] -= 1
-            break
-
-def delete_max():
-    while maxq:
-        val = -heapq.heappop(maxq)
-        if count[val] > 0:
-            count[val] -= 1
-            break
+import sys
+input = sys.stdin.readline
 
 t = int(input())
 for _ in range(t):
     k = int(input())
     minq, maxq = [], []
-    count = defaultdict(int)
-    for _ in range(k):
-        operator, value = input().split()
+    count = [False]*k
+    for i in range(k):
+        operator, x = input().strip().split()
+        x = int(x)
         if operator == 'I':
-            insert(int(value))
-        else:
-            if value == '-1':
-                delete_min()
-            else:
-                delete_max()
+            heapq.heappush(minq, (x, i))
+            heapq.heappush(maxq, (-x, i))
+            count[i] = True
+        else:    # operator == 'D'
+            if x == -1:
+                if len(minq) > 0:
+                    val = heapq.heappop(minq)[1]
+                    count[val] = False
+            else:   # value == 1
+                if len(maxq) > 0:
+                    val = heapq.heappop(maxq)[1]
+                    count[val] = False
                 
-    answer = [x for x in count if count[x]>0]
-    if len(answer)==0:
-        print('EMPTY')
+        while minq and count[minq[0][1]] == False:
+            heapq.heappop(minq)
+            
+        while maxq and count[maxq[0][1]] == False:
+            heapq.heappop(maxq)
+
+    if minq == []:
+        print("EMPTY")         
     else:
-        print(max(answer), min(answer))
+        print(-maxq[0][0], minq[0][0])  
